@@ -24,3 +24,6 @@ while True:
         print("Distance: "+ str(json_route["distance"])+"Miles "+ str("{:.2f}".format(json_route["distance"]*1.68))+"km")
         print("Fuel Used: "+ str(json_route["fuelUsed"])+"Gallons "+ str("{:.2f}".format(json_route["fuelUsed"]*3.78))+"L")
         print("==========================================")
+        for each in json_route["legs"][0]["maneuvers"]:
+            print((each["narrative"])+" ("+ str("{:.2f}".format((each["distance"])*1.61)+"km)"))
+        print("==========================================")
