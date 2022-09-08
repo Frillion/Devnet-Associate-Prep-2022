@@ -24,3 +24,15 @@ while True:
         print("Distance: "+ str(json_route["distance"])+"Miles "+ str("{:.2f}".format(json_route["distance"]*1.68))+"km")
         print("Fuel Used: "+ str(json_route["fuelUsed"])+"Gallons "+ str("{:.2f}".format(json_route["fuelUsed"]*3.78))+"L")
         print("==========================================")
+        for each in json_route["legs"][0]["maneuvers"]:
+            print((each["narrative"])+" ("+ str("{:.2f}".format((each["distance"])*1.61)+"km)"))
+        print("==========================================")
+    elif json_status == 402:
+        print("Status Code: "+str(json_status)+" -invalid user inputs for start or destination.")
+    elif json_status == 611:
+        print("Status Code: "+str(json_status)+" -missing an entry for start or destination.")
+    else:
+        print("==========================================")
+        print("For Status Code: "+str(json_status)+"; Please refer to:")
+        print("https://www.developer.mapquest.com/documentation/directions-api/status-codes")
+        print("==========================================")
