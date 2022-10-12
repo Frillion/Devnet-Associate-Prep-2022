@@ -1,0 +1,11 @@
+
+2022-10-11 19:24:57,503: %UNICON-INFO: +++ CSR1kv logfile vertify-ipv6-1/connection_CSR1kv.txt +++
+
+2022-10-11 19:24:57,503: %UNICON-INFO: +++ Unicon plugin iosxe (unicon.plugins.iosxe) +++
+Unsupported KEX algorithm "diffie-hellman-group14-shal"
+command-line line 0: Bad SSH2 KexAlgorithms 'diffie-hellman-group14-shal'.
+
+
+2022-10-11 19:24:57,540: %UNICON-INFO: +++ connection to spawn: ssh -l cisco -o KexAlgorithms=diffie-hellman-group14-shal 192.168.56.102, id: 140089582329472 +++
+
+2022-10-11 19:24:57,541: %UNICON-INFO: connection to CSR1kv

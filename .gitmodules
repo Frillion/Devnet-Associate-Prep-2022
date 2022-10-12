@@ -1,0 +1,3 @@
+[submodule "pyats/csr1kv/examples"]
+	path = pyats/csr1kv/examples
+	url = https://github.com/CiscoTestAutomation/examples

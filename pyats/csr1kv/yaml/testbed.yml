@@ -1,0 +1,14 @@
+devices:
+  CSR1kv:
+    connections:
+      cli:
+        ip: 192.168.56.102
+        protocol: ssh -o KexAlgorithms=diffie-hellman-group14-shal
+    credentials:
+      default:
+        password: '%ENC{gAAAAABjRpNGdSAano8qok1_xutXsj-zpgNk0QugBU_6k-A3Nq6r8WcifpPapwDldyqstUxSsl3Vb2L-Jc69W17cNSi--q3gWQ==}'
+        username: cisco
+      enable:
+        password: '%ASK{}'
+    os: iosxe
+    type: iosxe
