@@ -27,8 +27,8 @@
 # 1. Import libraries for API requests, JSON formatting, epoch time conversion, and iso3166.
 import requests
 import json
-from iso3166 import countries;
-from time import time;
+from iso3166 import countries
+import time
 # 2. Complete the if statement to ask the user for the Webex access token.
 choice = input("Do you wish to use the hard-coded Webex token? (y/n) ")
 
@@ -161,10 +161,10 @@ while True:
                 raise Exception("Incorrect reply from MapQuest API. Status code: {}".format(r.statuscode))
 
 # 11. Store the location received from the MapQuest API in a variable
-        CountryResult = json_data["results"]["locations"]["adminArea1"]
-        StateResult = json_data["results"]["locations"]["adminArea3"]
-        CityResult = json_data["results"]["locations"]["adminArea4"]
-        StreetResult = json_data["results"]["locations"]["street"]
+        CountryResult = json_data["results"][0]["locations"][0]["adminArea1"]
+        StateResult = json_data["results"][0]["locations"][0]["adminArea3"]
+        CityResult = json_data["results"][0]["locations"][0]["adminArea4"]
+        StreetResult = json_data["results"][0]["locations"][0]["street"]
 
         #Find the country name using ISO3611 country code
         if not CountryResult == "XZ":
@@ -175,13 +175,13 @@ while True:
         #responseMessage = "On {}, the ISS was flying over the following location: \n{} \n{}, {} \n{}\n({}\", {}\")".format(timeString, StreetResult, CityResult, StateResult, CountryResult, lat, lng)
 
         if CountryResult == "XZ":
-            responseMessage = "On {}, the ISS was flying over a body of water at a latitude of {}Â° and a longitude of {}Â°.".format(timeString, lat, lng)
+            responseMessage = "On {},\n the ISS was flying over a body of water at a latitude of {}° and a longitude of {}°.".format(timeString, lat, lng)
         elif StateResult == "":
-            responseMessage = "On {}, the ISS was flying over {},{} at a latitude of {}Â° and a longitude of {}Â°.".format(timestamp,countries.get(CountryResult).name,CityResult,lat,lng)
+            responseMessage = "On {},\n the ISS was flying over {},\n{}\n at a latitude of {}° and a longitude of {}°.".format(timeString,countries.get(CountryResult).name,CityResult,lat,lng)
         elif CityResult == "":
-            responseMessage = "On {}, the ISS was flying over {},{} at a latitude of {}Â° and a longitude of {}Â°.".format(timestamp,countries.get(CountryResult).name,StateResult,lat,lng)
+            responseMessage = "On {},\n the ISS was flying over {},\n{}\n at a latitude of {}° and a longitude of {}°.".format(timeString,countries.get(CountryResult).name,StateResult,lat,lng)
         else:
-            responseMessage = "On {}, the ISS was flying over {},{},{} at a latitude of {}Â° and a longitude of {}Â°.".format(timestamp,countries.get(CountryResult).name,StateResult,CityResult,StreetResult,lat,lng)
+            responseMessage = "On {},\n the ISS was flying over {},\n{},\n{}\n at a latitude of {}° and a longitude of {}°.".format(timeString,countries.get(CountryResult).name,StateResult,CityResult,StreetResult,lat,lng)
        
         # print the response message
         print("Sending to Webex: " +responseMessage)
@@ -189,18 +189,18 @@ while True:
 # 13. Complete the code to post the message to the Webex room.         
         # the Webex HTTP headers, including the Authoriztion and Content-Type
         HTTPHeaders = { 
-                             "Authorization": <!!!REPLACEME!!!>,
+                             "Authorization": accessToken,
                              "Content-Type": "application/json"
                            }
         
         PostData = {
-                            "roomId": <!!!REPLACEME!!!>,
-                            "text": <!!!REPLACEME!!!>
+                            "roomId": roomIdToGetMessages,
+                            "text": responseMessage
                         }
         # Post the call to the Webex message API.
-        r = requests.post( "<!!!REPLACEME with URL!!!>", 
-                              data = json.dumps(<!!!REPLACEME!!!>), 
-                              headers = <!!!REPLACEME!!!>
+        r = requests.post( "https://webexapis.com/v1/messages", 
+                              data = json.dumps(PostData), 
+                              headers = HTTPHeaders
                          )
         if not r.status_code == 200:
             raise Exception("Incorrect reply from Webex API. Status code: {}. Text: {}".format(r.status_code, r.text))
