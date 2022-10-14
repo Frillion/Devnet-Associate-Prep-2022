@@ -53,7 +53,7 @@ print("\nList of available rooms:")
 rooms = r.json()["items"]
 for room in rooms:
     print(room["title"])
-    print(rooms["type"]) 
+    print(room["type"]) 
 
 #######################################################################################
 # SEARCH FOR WEBEX ROOM TO MONITOR
@@ -94,7 +94,7 @@ while True:
                             "max": 1
                     }
 # 5. Provide the URL to the Webex messages API.    
-    r = requests.get("<!!!REPLACEME with URL!!!>", 
+    r = requests.get("https://webexapis.com/v1/messages", 
                          params = GetParameters, 
                          headers = {"Authorization": accessToken}
                     )
@@ -123,7 +123,7 @@ while True:
         time.sleep(seconds)     
     
 # 6. Provide the URL to the ISS Current Location API.         
-        r = requests.get("<!!!REPLACEME with URL!!!>")
+        r = requests.get("http://api.open-notify.org/iss-now.json")
         
         json_data = r.json()
         
@@ -132,25 +132,25 @@ while True:
 
 # 7. Record the ISS GPS coordinates and timestamp.
 
-        lat = json_data["<!!!REPLACEME!!!> with path to latitude key!!!>"]
-        lng = json_data["<!!!REPLACEME!!!> with path to longitude key!!!>"]
-        timestamp = json_data["<!!!REPLACEME!!!> with path to timestamp key!!!>"]
+        lat = json_data["iss_position"]["latitude"]
+        lng = json_data["iss_position"]["longitude"]
+        timestamp = json_data["timestamp"]
         
 # 8. Convert the timestamp epoch value to a human readable date and time.
         # Use the time.ctime function to convert the timestamp to a human readable date and time.
-        timeString = <!!!REPLACEME with conversion code!!!>       
+        timeString = time.asctime(time.localtime(timestamp))       
    
 # 9. Provide your MapQuest API consumer key.
     
         mapsAPIGetParameters = { 
                                 "lat": lat,
                                 "lng": lng,
-                                "key": "<!!!REPLACEME with your MapQuest API Key!!!>"
+                                "key": "Uu9fN5w1tQ0hLb3g4zPeILzGEbMck6OD"
                                }
     
 # 10. Provide the URL to the MapQuest Reverse GeoCode API.
     # Get location information using the MapQuest API reverse geocode service using the HTTP GET method
-        r = requests.get("<!!!REPLACEME with URL!!!>", 
+        r = requests.get("http://www.mapquestapi.com/geocoding/v1/reverse", 
                              params = mapsAPIGetParameters
                         )
 
@@ -161,10 +161,10 @@ while True:
                 raise Exception("Incorrect reply from MapQuest API. Status code: {}".format(r.statuscode))
 
 # 11. Store the location received from the MapQuest API in a variable
-        CountryResult = json_data["<!!!REPLACEME!!!> with path to adminArea1 key!!!>"]
-        StateResult = json_data["<!!!REPLACEME!!!> with path to adminArea3 key!!!>"]
-        CityResult = json_data["<!!!REPLACEME!!!> with path to adminArea4!!!>"]
-        StreetResult = json_data["<!!!REPLACEME!!!> with path to street key!!!>"]
+        CountryResult = json_data["results"]["locations"]["adminArea1"]
+        StateResult = json_data["results"]["locations"]["adminArea3"]
+        CityResult = json_data["results"]["locations"]["adminArea4"]
+        StreetResult = json_data["results"]["locations"]["street"]
 
         #Find the country name using ISO3611 country code
         if not CountryResult == "XZ":
@@ -176,9 +176,9 @@ while True:
 
         if CountryResult == "XZ":
             responseMessage = "On {}, the ISS was flying over a body of water at latitude {}Â° and longitude {}Â°.".format(timeString, lat, lng)
-        
-<!!!REPLACEME with if statements to compose the message to display the current ISS location in the Webex Team room!!!>
-        elif
+        elif StateResult == "" and CityResult == "":
+            responseMessage = "On {}, the ISS was flying over {} at latitude {}Â° and at longitude {}Â°.".format(timestamp,countries.get(CountryResult).name,lat,lng)
+        elif  == ""
         else
        
         # print the response message
@@ -202,4 +202,3 @@ while True:
                          )
         if not r.status_code == 200:
             raise Exception("Incorrect reply from Webex API. Status code: {}. Text: {}".format(r.status_code, r.text))
-                
