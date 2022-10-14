@@ -175,12 +175,13 @@ while True:
         #responseMessage = "On {}, the ISS was flying over the following location: \n{} \n{}, {} \n{}\n({}\", {}\")".format(timeString, StreetResult, CityResult, StateResult, CountryResult, lat, lng)
 
         if CountryResult == "XZ":
-            responseMessage = "On {}, the ISS was flying over a body of water at latitude {}Â° and longitude {}Â°.".format(timeString, lat, lng)
-        elif StateResult == "" and CityResult == "":
-            responseMessage = "On {}, the ISS was flying over {} at latitude {}Â° and at longitude {}Â°.".format(timestamp,countries.get(CountryResult).name,lat,lng)
-        
-        elif  == ""
-        else
+            responseMessage = "On {}, the ISS was flying over a body of water at a latitude of {}Â° and a longitude of {}Â°.".format(timeString, lat, lng)
+        elif StateResult == "":
+            responseMessage = "On {}, the ISS was flying over {},{} at a latitude of {}Â° and a longitude of {}Â°.".format(timestamp,countries.get(CountryResult).name,CityResult,lat,lng)
+        elif CityResult == "":
+            responseMessage = "On {}, the ISS was flying over {},{} at a latitude of {}Â° and a longitude of {}Â°.".format(timestamp,countries.get(CountryResult).name,StateResult,lat,lng)
+        else:
+            responseMessage = "On {}, the ISS was flying over {},{},{} at a latitude of {}Â° and a longitude of {}Â°.".format(timestamp,countries.get(CountryResult).name,StateResult,CityResult,StreetResult,lat,lng)
        
         # print the response message
         print("Sending to Webex: " +responseMessage)
