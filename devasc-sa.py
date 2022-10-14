@@ -178,6 +178,7 @@ while True:
             responseMessage = "On {}, the ISS was flying over a body of water at latitude {}Â° and longitude {}Â°.".format(timeString, lat, lng)
         elif StateResult == "" and CityResult == "":
             responseMessage = "On {}, the ISS was flying over {} at latitude {}Â° and at longitude {}Â°.".format(timestamp,countries.get(CountryResult).name,lat,lng)
+        
         elif  == ""
         else
        
